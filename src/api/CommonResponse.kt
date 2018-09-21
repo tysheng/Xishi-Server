@@ -8,6 +8,7 @@ data class CommonResponse<T>(
         const val OK = 0
         const val NOT_FOUNT = 1
         const val FORBIDDEN = 2
+        const val PARAMS_ERROR = 3
     }
 }
 

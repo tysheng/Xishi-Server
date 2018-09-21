@@ -24,6 +24,17 @@ fun ResultRow.toAlbum(): Album {
             this[AlbumTable.addTime])
 }
 
+fun ResultRow.toShot(): Shot {
+    return Shot(shotId = this[ShotTable.shotId],
+            albumId = this[ShotTable.albumId],
+            title = this[ShotTable.title],
+            content = this[ShotTable.content],
+            author = this[ShotTable.author],
+            url = this[ShotTable.url],
+            youShotLink = this[ShotTable.youShotLink]
+    )
+}
+
 
 fun ResultRow.toUser(albums: List<Album>?, shots: List<Shot>?): User {
     return User(userId = this[UserTable.userId],

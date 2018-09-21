@@ -2,7 +2,6 @@ package com.tysheng.xishi.server.repo
 
 import com.tysheng.xishi.server.common.SEPARATOR
 import com.tysheng.xishi.server.data.*
-import com.tysheng.xishi.server.logD
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import repo.DatabaseFactory.dbQuery
@@ -62,8 +61,37 @@ class XishiServiceImpl : XishiService {
         TODO()
     }
 
-    override suspend fun retrieveUser(userId: Int): User? {
-        TODO()
+    override suspend fun retrieveUser(userId: Int, needExtra: Boolean): User? {
+        return dbQuery {
+            val resultRow = UserTable.select(UserTable.userId.eq(userId)).single()
+            var albums: List<Album>? = null
+            var shots: List<Shot>? = null
+            if (needExtra) {
+                val albumStr = resultRow[UserTable.albums]
+                val shotStr = resultRow[UserTable.shots]
+                if (albumStr?.isNotEmpty() == true) {
+                    val albumList = albumStr.split(SEPARATOR).map { it.toInt() }
+                    albums = AlbumTable.select {
+                        AlbumTable.albumId inList albumList
+                    }.map { it.toAlbum() }.toList()
+                }
+                if (shotStr?.isNotEmpty() == true) {
+                    val shotList = shotStr.split(SEPARATOR).map { it.toInt() }
+                    shots = ShotTable.select {
+                        ShotTable.albumId inList shotList
+                    }.map { it.toShot() }.toList()
+                }
+            }
+            resultRow.toUser(albums, shots)
+        }
+    }
+
+    override suspend fun updateUserName(userId: Int, newName: String) {
+        dbQuery {
+            UserTable.update({ UserTable.userId eq userId }) {
+                it[userName] = newName
+            }
+        }
     }
 
     private suspend fun checkAlbumExists(albumId: Int): Boolean {

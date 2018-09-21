@@ -40,12 +40,15 @@ fun Route.user(userService: UserService) {
                 if (userId != null) {
                     val param = call.receive<Map<String, String>>()
                     val newName = param["new_name"]
-//                    userService.retrieveUser(userId)
-                    call.respond(CommonResponse(content = newName))
+                    if (newName?.isNotEmpty() == true) {
+                        userService.updateUserName(userId, newName)
+                        call.respond(CommonResponse(content = newName))
+                    } else {
+                        call.respond(CommonResponse<Any>(CommonResponse.PARAMS_ERROR))
+                    }
                 } else {
                     call.respond(CommonResponse<Any>(CommonResponse.FORBIDDEN))
                 }
-
             }
         }
     }

@@ -27,7 +27,8 @@ fun Application.module() {
         jwt(JWT) {
             verifier(xishiJwt.verifier)
             validate {
-                UserIdPrincipal(it.payload.getClaim(CLAIM_USER_ID).asString())
+                val claim = it.payload.getClaim(CLAIM_USER_ID)
+                UserIdPrincipal(claim.asInt().toString())
             }
         }
     }
