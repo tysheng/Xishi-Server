@@ -1,8 +1,6 @@
 package repo
 
-import com.tysheng.xishi.server.data.AlbumTable
-import com.tysheng.xishi.server.data.ShotTable
-import com.tysheng.xishi.server.data.UserTable
+import com.tysheng.xishi.server.data.*
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import kotlinx.coroutines.experimental.newFixedThreadPoolContext
@@ -17,7 +15,7 @@ object DatabaseFactory {
     fun init() {
         Database.connect(hikari())
         transaction {
-            create(UserTable, AlbumTable, ShotTable)
+            create(UserTable, AlbumTable, ShotTable, AlbumBookmarkTable, ShotBookmarkTable)
         }
     }
 

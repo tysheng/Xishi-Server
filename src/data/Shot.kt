@@ -12,8 +12,8 @@ object ShotTable : Table() {
     val author = varchar("author", 255)
     val imageSize = long("imageSize")
     val addTime = long("addTime")
-    val thumb = varchar("thumb", 255)
-    val youShotLink = varchar("youShotLink", 255)
+    val thumb = varchar("thumb", 255).nullable()
+    val youShotLink = varchar("youShotLink", 255).nullable()
 }
 
 data class Shot(
@@ -23,5 +23,8 @@ data class Shot(
         val content: String,
         val author: String,
         val url: String,
-        val youShotLink: String? = null
+        val youShotLink: String? = null,
+        val imageSize: Long,
+        val addTime: Long,
+        val thumb: String? = null
 )

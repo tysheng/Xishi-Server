@@ -1,19 +1,24 @@
 package com.tysheng.xishi.server
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import io.ktor.application.*
-import io.ktor.routing.*
-import io.ktor.auth.*
-import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.databind.PropertyNamingStrategy
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.tysheng.xishi.server.api.gallery
 import com.tysheng.xishi.server.api.user
 import com.tysheng.xishi.server.common.CLAIM_USER_ID
 import com.tysheng.xishi.server.common.JWT
 import com.tysheng.xishi.server.common.xishiJwt
 import com.tysheng.xishi.server.common.xishiService
-import io.ktor.auth.jwt.JWTPrincipal
+import io.ktor.application.Application
+import io.ktor.application.install
+import io.ktor.auth.Authentication
+import io.ktor.auth.UserIdPrincipal
 import io.ktor.auth.jwt.jwt
-import io.ktor.jackson.*
-import io.ktor.features.*
+import io.ktor.features.CallLogging
+import io.ktor.features.ContentNegotiation
+import io.ktor.features.DefaultHeaders
+import io.ktor.jackson.jackson
+import io.ktor.routing.Routing
 import repo.DatabaseFactory
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.DevelopmentEngine.main(args)
@@ -44,6 +49,7 @@ fun Application.module() {
     DatabaseFactory.init()
     install(Routing) {
         user(xishiService)
+        gallery(xishiService)
     }
 }
 

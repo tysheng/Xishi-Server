@@ -2,9 +2,6 @@ package com.tysheng.xishi.server.repo
 
 import com.tysheng.xishi.server.data.*
 import org.jetbrains.exposed.sql.ResultRow
-import java.text.SimpleDateFormat
-import java.time.ZoneId
-import java.util.*
 
 
 // 2018-06-08 10:42:06
@@ -31,15 +28,18 @@ fun ResultRow.toShot(): Shot {
             content = this[ShotTable.content],
             author = this[ShotTable.author],
             url = this[ShotTable.url],
-            youShotLink = this[ShotTable.youShotLink]
+            youShotLink = this[ShotTable.youShotLink],
+            imageSize = this[ShotTable.imageSize],
+            addTime = this[ShotTable.addTime],
+            thumb = this[ShotTable.thumb]
     )
 }
 
 
-fun ResultRow.toUser(albums: List<Album>?, shots: List<Shot>?): User {
+fun ResultRow.toUser(albums: List<Album>?, shots: List<Shot>?, hidePassword: Boolean = true): User {
     return User(userId = this[UserTable.userId],
             userName = this[UserTable.userName],
-            password = null,
+            password = if (hidePassword) null else this[UserTable.password],
             avatar = this[UserTable.avatar],
             albums = albums, shots = shots)
 }

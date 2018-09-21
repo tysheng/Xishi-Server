@@ -8,10 +8,6 @@ object UserTable : Table() {
     val password = varchar("password", 50)
     val userName = varchar("userName", 30)
     val avatar = varchar("avatar", 255).nullable()
-    val albums = text("albums").nullable()
-    val albumCount = integer("albumCount").default(0)
-    val shots = text("shots").nullable()
-    val shotCount = integer("shotCount").default(0)
 }
 
 data class User(
@@ -24,9 +20,5 @@ data class User(
         var token: String? = null
 )
 
-data class UserRegisterParam(
-        val userName: String,
-        val password: String,
-        val avatar: String? = null
-)
+
 
