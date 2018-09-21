@@ -34,7 +34,7 @@ fun Route.user(service: UserService) {
 
         get("/all") {
             val needExtra = call.request.queryParameters["need_extra"]?.toBoolean() ?: false
-            val allUsers = service.allUsers(needExtra)
+            val allUsers = service.retrieveAllUsers(needExtra)
             call.respond(CommonResponse(CommonResponse.OK, allUsers))
         }
 

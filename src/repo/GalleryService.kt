@@ -18,6 +18,6 @@ interface GalleryService {
 
     suspend fun retrieveShotsByAlbum(albumId: Int): List<Shot>?
 
-    suspend fun allAlbums(userId: Int): List<Album>?
-    suspend fun allShots(userId: Int): List<Shot>?
+    suspend fun retrieveAllAlbums(userId: Int): List<Album>?
+    suspend fun retrieveAllShots(userId: Int): List<Shot>?
 }

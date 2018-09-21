@@ -12,5 +12,5 @@ interface UserService {
     suspend fun updateUserName(userId: Int, newName: String)
     suspend fun updatePassword(userId: Int, oldPsw: String, newPsw: String): UpdatePasswordServiceResult
 
-    suspend fun allUsers(needExtra: Boolean = true): List<User>?
+    suspend fun retrieveAllUsers(needExtra: Boolean = true): List<User>?
 }

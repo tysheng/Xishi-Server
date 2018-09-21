@@ -6,9 +6,18 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import repo.DatabaseFactory.dbQuery
 
 class XishiServiceImpl : XishiService {
-    override suspend fun allUsers(needExtra: Boolean): List<User>? {
+    override suspend fun retrieveAllUsers(needExtra: Boolean): List<User>? {
         return dbQuery {
-            UserTable.selectAll().map { it.toUser(null, null) }
+            UserTable.selectAll()
+                    .map {
+                        val (albums, shots) = if (needExtra) {
+                            val userId = it[UserTable.userId]
+                            allAlbums(userId) to allShots(userId)
+                        } else {
+                            null to null
+                        }
+                        it.toUser(albums, shots)
+                    }
         }
     }
 
@@ -216,31 +225,39 @@ class XishiServiceImpl : XishiService {
         }
     }
 
-    override suspend fun allAlbums(userId: Int): List<Album>? {
-        return dbQuery {
-            if (userId > 0) {
-                AlbumBookmarkTable.select(AlbumBookmarkTable.userId.eq(userId))
-            } else {
-                AlbumBookmarkTable.selectAll()
-            }.map { it[AlbumBookmarkTable.albumId] }.let {
-                AlbumTable.select {
-                    AlbumTable.albumId inList it
-                }.map { it.toAlbum() }
-            }
+    private fun allAlbums(userId: Int): List<Album>? {
+        return if (userId > 0) {
+            AlbumBookmarkTable.select(AlbumBookmarkTable.userId.eq(userId))
+        } else {
+            AlbumBookmarkTable.selectAll()
+        }.map { it[AlbumBookmarkTable.albumId] }.let {
+            AlbumTable.select {
+                AlbumTable.albumId inList it
+            }.map { it.toAlbum() }
         }
     }
 
-    override suspend fun allShots(userId: Int): List<Shot>? {
+    override suspend fun retrieveAllAlbums(userId: Int): List<Album>? {
         return dbQuery {
-            if (userId > 0) {
-                ShotBookmarkTable.select(ShotBookmarkTable.userId.eq(userId))
-            } else {
-                ShotBookmarkTable.selectAll()
-            }.map { it[ShotBookmarkTable.shotId] }.let {
-                ShotTable.select {
-                    ShotTable.shotId inList it
-                }.map { it.toShot() }
-            }
+            allAlbums(userId)
+        }
+    }
+
+    private fun allShots(userId: Int): List<Shot>? {
+        return if (userId > 0) {
+            ShotBookmarkTable.select(ShotBookmarkTable.userId.eq(userId))
+        } else {
+            ShotBookmarkTable.selectAll()
+        }.map { it[ShotBookmarkTable.shotId] }.let {
+            ShotTable.select {
+                ShotTable.shotId inList it
+            }.map { it.toShot() }
+        }
+    }
+
+    override suspend fun retrieveAllShots(userId: Int): List<Shot>? {
+        return dbQuery {
+            allShots(userId)
         }
     }
 }

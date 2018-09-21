@@ -37,7 +37,7 @@ fun Route.gallery(service: GalleryService) {
         jwtAuth {
             get("/all") {
                 call.checkUserId { userId ->
-                    val albums = service.allAlbums(userId)
+                    val albums = service.retrieveAllAlbums(userId)
                     respond(CommonResponse(CommonResponse.OK, albums))
                 }
             }
@@ -89,7 +89,7 @@ fun Route.gallery(service: GalleryService) {
         jwtAuth {
             get("/all") {
                 call.checkUserId { userId ->
-                    val shots = service.allShots(userId)
+                    val shots = service.retrieveAllShots(userId)
                     respond(CommonResponse(CommonResponse.OK, shots))
                 }
             }
