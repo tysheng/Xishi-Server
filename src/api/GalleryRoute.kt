@@ -12,7 +12,7 @@ import io.ktor.routing.post
 import io.ktor.routing.route
 
 fun Route.gallery(service: GalleryService) {
-    route("/album") {
+    route("/albums") {
         jwtAuth {
             post("/add") {
                 call.checkUserId { userId ->
@@ -35,7 +35,7 @@ fun Route.gallery(service: GalleryService) {
             }
         }
         jwtAuth {
-            get("/all") {
+            get("/") {
                 call.checkUserId { userId ->
                     val albums = service.retrieveAllAlbums(userId)
                     respond(CommonResponse(CommonResponse.OK, albums))
@@ -57,7 +57,7 @@ fun Route.gallery(service: GalleryService) {
     }
 
 
-    route("/shot") {
+    route("/shots") {
         jwtAuth {
             post("/add") {
                 call.checkUserId { userId ->
@@ -87,7 +87,7 @@ fun Route.gallery(service: GalleryService) {
             }
         }
         jwtAuth {
-            get("/all") {
+            get("/") {
                 call.checkUserId { userId ->
                     val shots = service.retrieveAllShots(userId)
                     respond(CommonResponse(CommonResponse.OK, shots))
@@ -112,7 +112,7 @@ fun Route.gallery(service: GalleryService) {
     /**
      * shots by album id
      */
-    get("/shots/{id}") {
+    get("/shots-by-album/{id}") {
         var albumIdForShots: Int? = null
         try {
             albumIdForShots = call.parameters["id"]?.toInt()

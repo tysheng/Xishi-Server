@@ -16,7 +16,7 @@ import io.ktor.routing.route
 
 fun Route.user(service: UserService) {
 
-    route("/user") {
+    route("/users") {
         post("/register") {
             val param = call.receive<UserRegisterParam>()
             val newUser = User(userName = param.userName,
@@ -32,7 +32,7 @@ fun Route.user(service: UserService) {
             }
         }
 
-        get("/all") {
+        get("/") {
             val needExtra = call.request.queryParameters["need_extra"]?.toBoolean() ?: false
             val allUsers = service.retrieveAllUsers(needExtra)
             call.respond(CommonResponse(CommonResponse.OK, allUsers))
