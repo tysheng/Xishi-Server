@@ -14,7 +14,7 @@ data class User(
         val userId: Int = 0,
         val userName: String,
         var password: String? = null,
-        val avatar: String? = null,
+        var avatar: String? = null,
         val albums: List<Album>? = null,
         val shots: List<Shot>? = null,
         var token: String? = null

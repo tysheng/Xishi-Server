@@ -3,6 +3,7 @@ package com.tysheng.xishi.server
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.SerializationFeature
+import com.tysheng.xishi.server.api.common
 import com.tysheng.xishi.server.api.gallery
 import com.tysheng.xishi.server.api.user
 import com.tysheng.xishi.server.common.CLAIM_USER_ID
@@ -50,6 +51,7 @@ fun Application.module() {
     install(Routing) {
         user(xishiService)
         gallery(xishiService)
+        common()
     }
 }
 

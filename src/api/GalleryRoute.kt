@@ -21,7 +21,7 @@ fun Route.gallery(service: GalleryService) {
                             title = param.title,
                             url = param.url,
                             addTime = param.addTime))
-                    respond(CommonResponse<Any>(CommonResponse.OK))
+                    respond(Resp<Any>(Resp.OK))
                 }
             }
         }
@@ -30,7 +30,7 @@ fun Route.gallery(service: GalleryService) {
                 call.checkUserId { userId ->
                     val param = receive<DeleteParam>()
                     service.deleteAlbum(userId, param.id)
-                    respond(CommonResponse<Any>(CommonResponse.OK))
+                    respond(Resp<Any>(Resp.OK))
                 }
             }
         }
@@ -38,7 +38,7 @@ fun Route.gallery(service: GalleryService) {
             get("/") {
                 call.checkUserId { userId ->
                     val albums = service.retrieveAllAlbums(userId)
-                    respond(CommonResponse(CommonResponse.OK, albums))
+                    respond(Resp(Resp.OK, albums))
                 }
             }
         }
@@ -47,11 +47,11 @@ fun Route.gallery(service: GalleryService) {
             try {
                 albumId = call.parameters["id"]?.toInt()
             } catch (e: NumberFormatException) {
-                call.respond(CommonResponse<Any>(CommonResponse.PARAMS_ERROR))
+                call.respond(Resp<Any>(Resp.PARAMS_ERROR))
             }
             if (albumId != null) {
                 val album = service.retrieveAlbum(albumId)
-                call.respond(CommonResponse(CommonResponse.OK, album))
+                call.respond(Resp(Resp.OK, album))
             }
         }
     }
@@ -73,7 +73,7 @@ fun Route.gallery(service: GalleryService) {
                             imageSize = param.imageSize,
                             author = param.author,
                             content = param.content))
-                    respond(CommonResponse<Any>(CommonResponse.OK))
+                    respond(Resp<Any>(Resp.OK))
                 }
             }
         }
@@ -82,7 +82,7 @@ fun Route.gallery(service: GalleryService) {
                 call.checkUserId { userId ->
                     val param = receive<DeleteParam>()
                     service.deleteShot(userId, param.id)
-                    respond(CommonResponse<Any>(CommonResponse.OK))
+                    respond(Resp<Any>(Resp.OK))
                 }
             }
         }
@@ -90,7 +90,7 @@ fun Route.gallery(service: GalleryService) {
             get("/") {
                 call.checkUserId { userId ->
                     val shots = service.retrieveAllShots(userId)
-                    respond(CommonResponse(CommonResponse.OK, shots))
+                    respond(Resp(Resp.OK, shots))
                 }
             }
         }
@@ -99,11 +99,11 @@ fun Route.gallery(service: GalleryService) {
             try {
                 shotId = call.parameters["id"]?.toInt()
             } catch (e: NumberFormatException) {
-                call.respond(CommonResponse<Any>(CommonResponse.PARAMS_ERROR))
+                call.respond(Resp<Any>(Resp.PARAMS_ERROR))
             }
             if (shotId != null) {
                 val shot = service.retrieveShot(shotId)
-                call.respond(CommonResponse(CommonResponse.OK, shot))
+                call.respond(Resp(Resp.OK, shot))
             }
         }
 
@@ -117,11 +117,11 @@ fun Route.gallery(service: GalleryService) {
         try {
             albumIdForShots = call.parameters["id"]?.toInt()
         } catch (e: NumberFormatException) {
-            call.respond(CommonResponse<Any>(CommonResponse.PARAMS_ERROR))
+            call.respond(Resp<Any>(Resp.PARAMS_ERROR))
         }
         if (albumIdForShots != null) {
             val shots = service.retrieveShotsByAlbum(albumIdForShots)
-            call.respond(CommonResponse(CommonResponse.OK, shots))
+            call.respond(Resp(Resp.OK, shots))
         }
     }
 

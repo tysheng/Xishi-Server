@@ -2,7 +2,9 @@
 /.idea
 /out
 /build
+/avatar
 *.iml
 *.ipr
 *.iws
 *.db
+*.conf

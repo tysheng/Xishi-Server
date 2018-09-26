@@ -9,12 +9,14 @@ buildscript {
     
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
     }
 }
 
 apply plugin: 'kotlin'
 apply plugin: 'application'
 
+apply plugin: 'com.github.johnrengelman.shadow'
 group 'Xishi'
 version '0.0.1'
 mainClassName = "io.ktor.server.netty.DevelopmentEngine"
@@ -30,6 +32,7 @@ repositories {
     jcenter()
     maven { url 'https://kotlin.bintray.com/ktor' }
     maven { url 'https://kotlin.bintray.com/exposed' }
+    
 }
 
 dependencies {
@@ -46,6 +49,10 @@ dependencies {
     compile "io.ktor:ktor-auth:$ktor_version"
     compile "io.ktor:ktor-auth-jwt:$ktor_version"
     compile "io.ktor:ktor-jackson:$ktor_version"
+    compile "io.ktor:ktor-client-core:$ktor_version"
+    compile "io.ktor:ktor-client-apache:$ktor_version"
+    compile "io.ktor:ktor-network-tls:$ktor_version"
+    
     compile "com.h2database:h2:1.4.196"
     compile "org.jetbrains.exposed:exposed:0.10.4"
     compile 'com.zaxxer:HikariCP:3.2.0'

@@ -14,6 +14,6 @@ suspend fun ApplicationCall.checkUserId(block: suspend ApplicationCall.(userId: 
     if (userId != null) {
         block(userId)
     } else {
-        respond(CommonResponse<Any>(CommonResponse.FORBIDDEN))
+        respond(Resp<Any>(Resp.FORBIDDEN))
     }
 }

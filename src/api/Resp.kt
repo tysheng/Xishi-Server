@@ -1,6 +1,6 @@
 package com.tysheng.xishi.server.api
 
-data class CommonResponse<T>(
+data class Resp<T>(
         val statusCode: Int = OK,
         val content: T? = null
 ) {
