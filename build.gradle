@@ -54,9 +54,12 @@ dependencies {
     compile "io.ktor:ktor-network-tls:$ktor_version"
     
     compile "com.h2database:h2:1.4.196"
-    compile "org.jetbrains.exposed:exposed:0.10.4"
+    compile "org.jetbrains.exposed:exposed:0.10.5"
     compile 'com.zaxxer:HikariCP:3.2.0'
-    
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+
+
 }
 
 kotlin.experimental.coroutines = 'enable'

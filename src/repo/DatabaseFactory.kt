@@ -8,18 +8,20 @@ import kotlinx.coroutines.experimental.withContext
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils.create
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.*
 import kotlin.coroutines.experimental.CoroutineContext
+
 
 object DatabaseFactory {
 
     fun init() {
-        Database.connect(hikari())
+        Database.connect(pgs())
         transaction {
             create(UserTable, AlbumTable, ShotTable, AlbumBookmarkTable, ShotBookmarkTable)
         }
     }
 
-    private fun hikari(): HikariDataSource {
+    private fun h2(): HikariDataSource {
         val config = HikariConfig()
         config.driverClassName = "org.h2.Driver"
 //        config.jdbcUrl = "jdbc:h2:mem:test"
@@ -28,6 +30,18 @@ object DatabaseFactory {
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
         config.validate()
+        return HikariDataSource(config)
+    }
+
+    private fun pgs(): HikariDataSource {
+        val props = Properties()
+        props.setProperty("dataSourceClassName", "org.postgresql.ds.PGSimpleDataSource")
+        props.setProperty("dataSource.user", "tysheng")
+        props.setProperty("dataSource.password", "sty")
+        props.setProperty("dataSource.databaseName", "pgsdb")
+//        props.put("dataSource.logWriter", PrintWriter(System.out))
+
+        val config = HikariConfig(props)
         return HikariDataSource(config)
     }
 
