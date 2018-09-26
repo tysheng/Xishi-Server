@@ -47,7 +47,7 @@ fun Application.module() {
         }
     }
 
-    DatabaseFactory.init()
+    DatabaseFactory.init(environment)
     install(Routing) {
         user(xishiService)
         gallery(xishiService)

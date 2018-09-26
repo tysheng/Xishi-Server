@@ -3,19 +3,21 @@ package repo
 import com.tysheng.xishi.server.data.*
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import io.ktor.application.ApplicationEnvironment
 import kotlinx.coroutines.experimental.newFixedThreadPoolContext
 import kotlinx.coroutines.experimental.withContext
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils.create
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.io.PrintWriter
 import java.util.*
 import kotlin.coroutines.experimental.CoroutineContext
 
 
 object DatabaseFactory {
 
-    fun init() {
-        Database.connect(pgs())
+    fun init(environment: ApplicationEnvironment) {
+        Database.connect(pgs(environment))
         transaction {
             create(UserTable, AlbumTable, ShotTable, AlbumBookmarkTable, ShotBookmarkTable)
         }
@@ -33,13 +35,13 @@ object DatabaseFactory {
         return HikariDataSource(config)
     }
 
-    private fun pgs(): HikariDataSource {
+    private fun pgs(environment: ApplicationEnvironment): HikariDataSource {
         val props = Properties()
         props.setProperty("dataSourceClassName", "org.postgresql.ds.PGSimpleDataSource")
-        props.setProperty("dataSource.user", "tysheng")
-        props.setProperty("dataSource.password", "sty")
+        props.setProperty("dataSource.user", environment.config.property("db.user").getString())
+        props.setProperty("dataSource.password", environment.config.property("db.password").getString())
         props.setProperty("dataSource.databaseName", "pgsdb")
-//        props.put("dataSource.logWriter", PrintWriter(System.out))
+        props.put("dataSource.logWriter", PrintWriter(System.out))
 
         val config = HikariConfig(props)
         return HikariDataSource(config)
