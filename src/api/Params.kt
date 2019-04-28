@@ -6,9 +6,9 @@ data class UserRegisterParam(
         val avatar: String? = null
 )
 
-data class UpdateNameParam(
-        val newName: String
-)
+class UpdateNameParam {
+    lateinit var newName: String
+}
 
 data class UpdatePasswordParam(
         val oldPassword: String,
@@ -36,5 +36,5 @@ data class AddShotParam(
 )
 
 data class DeleteParam(
-        val id:Int
+        val id: Int
 )

@@ -55,7 +55,7 @@ fun Route.user(service: UserService) {
         }
 
         jwtAuth {
-            post("/edit-name") {
+            post("/name") {
                 call.checkUserId { userId ->
                     val param = receive<UpdateNameParam>()
                     val newName = param.newName
@@ -70,7 +70,7 @@ fun Route.user(service: UserService) {
         }
 
         jwtAuth {
-            post("/edit-password") {
+            post("/password") {
                 call.checkUserId { userId ->
                     val param = receive<UpdatePasswordParam>()
                     val newPassword = param.newPassword

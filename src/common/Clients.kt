@@ -5,7 +5,7 @@ import io.ktor.client.engine.apache.Apache
 import io.ktor.client.request.get
 import io.ktor.client.request.url
 import io.ktor.client.response.HttpResponse
-import kotlinx.coroutines.experimental.io.jvm.javaio.toInputStream
+import kotlinx.coroutines.io.jvm.javaio.toInputStream
 import java.io.File
 import java.net.URL
 import java.security.cert.X509Certificate

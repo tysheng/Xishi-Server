@@ -4,14 +4,14 @@ import com.tysheng.xishi.server.data.*
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.application.ApplicationEnvironment
-import kotlinx.coroutines.experimental.newFixedThreadPoolContext
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.newFixedThreadPoolContext
+import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils.create
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.PrintWriter
 import java.util.*
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlin.coroutines.CoroutineContext
 
 
 object DatabaseFactory {
@@ -58,5 +58,6 @@ object DatabaseFactory {
             withContext(dispatcher) {
                 transaction { block() }
             }
+
 
 }

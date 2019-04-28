@@ -6,15 +6,12 @@ import com.tysheng.xishi.server.repo.GalleryService
 import io.ktor.application.call
 import io.ktor.request.receive
 import io.ktor.response.respond
-import io.ktor.routing.Route
-import io.ktor.routing.get
-import io.ktor.routing.post
-import io.ktor.routing.route
+import io.ktor.routing.*
 
 fun Route.gallery(service: GalleryService) {
     route("/albums") {
         jwtAuth {
-            post("/add") {
+            post {
                 call.checkUserId { userId ->
                     val param = receive<AddAlbumParam>()
                     service.addAlbum(userId, Album(albumId = param.albumId,
@@ -26,7 +23,7 @@ fun Route.gallery(service: GalleryService) {
             }
         }
         jwtAuth {
-            post("/delete") {
+            delete {
                 call.checkUserId { userId ->
                     val param = receive<DeleteParam>()
                     service.deleteAlbum(userId, param.id)
@@ -35,7 +32,7 @@ fun Route.gallery(service: GalleryService) {
             }
         }
         jwtAuth {
-            get("/") {
+            get {
                 call.checkUserId { userId ->
                     val albums = service.retrieveAllAlbums(userId)
                     respond(Resp(Resp.OK, albums))
@@ -59,7 +56,7 @@ fun Route.gallery(service: GalleryService) {
 
     route("/shots") {
         jwtAuth {
-            post("/add") {
+            post {
                 call.checkUserId { userId ->
                     val param = receive<AddShotParam>()
                     service.addShot(userId, Shot(
@@ -78,7 +75,7 @@ fun Route.gallery(service: GalleryService) {
             }
         }
         jwtAuth {
-            post("/delete") {
+            delete {
                 call.checkUserId { userId ->
                     val param = receive<DeleteParam>()
                     service.deleteShot(userId, param.id)
@@ -87,7 +84,7 @@ fun Route.gallery(service: GalleryService) {
             }
         }
         jwtAuth {
-            get("/") {
+            get {
                 call.checkUserId { userId ->
                     val shots = service.retrieveAllShots(userId)
                     respond(Resp(Resp.OK, shots))
@@ -112,7 +109,7 @@ fun Route.gallery(service: GalleryService) {
     /**
      * shots by album id
      */
-    get("/shots-by-album/{id}") {
+    get("/album-shots/{id}") {
         var albumIdForShots: Int? = null
         try {
             albumIdForShots = call.parameters["id"]?.toInt()

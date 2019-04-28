@@ -22,7 +22,7 @@ import io.ktor.jackson.jackson
 import io.ktor.routing.Routing
 import repo.DatabaseFactory
 
-fun main(args: Array<String>): Unit = io.ktor.server.netty.DevelopmentEngine.main(args)
+fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 
 fun Application.module() {
